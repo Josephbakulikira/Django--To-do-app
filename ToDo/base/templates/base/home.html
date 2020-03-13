@@ -1,0 +1,31 @@
+{% extends "base/base.html"%}
+{% block body_block%}
+  <h1>TODO APP</h1>
+  <form method="POST" action='{% url 'base:list' %}'>
+    {% csrf_token %}
+    {{forms.name}}
+
+    <input class="btn btn-warning" type="submit" name="Add todo" value="Add Task">
+  </form>
+  <div class="card" style="width: 30rem;">
+    <ul class="list-group list-group-flush">
+
+  {% for task in tasks %}
+    {% if task.done is True %}
+      <li class="list-group-item task">
+        <strike>
+          {{task.name}}<strike>
+          <a class="btn btn-primary" href="{% url "base:update" task.id %}">update</a>
+          <a class="btn btn-danger" href="{% url "base:delete" task.id %}">delete</a>
+      </li>
+      {% else %}
+      <li class="list-group-item task">
+          {{task.name}}
+          <a class="btn btn-primary" href="{% url "base:update" task.id %}">update</a>
+          <a class="btn btn-danger" href="{% url "base:delete" task.id %}">delete</a>
+      </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+  </div>
+{% endblock %}
